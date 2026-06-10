@@ -8,14 +8,15 @@ Cursor Agent provider extension for [pi](https://github.com/badlogic/pi-mono).
 
 Use Cursor's AI models directly from **pi** or **opencode** with your existing Cursor subscription. Supports Claude, GPT, Gemini, Grok, Composer, and Kimi models.
 
-## Packages
+## Install
 
-| Package                                                    | Purpose                                         |
-| ---------------------------------------------------------- | ----------------------------------------------- |
-| [`@open-cursor/pi-agent`](integrations/pi-agent/README.md) | Pi provider extension                           |
-| `@open-cursor/opencode-agent`                              | Opencode provider extension                     |
-| [`@open-cursor/protocol`](shared/protocol/README.md)       | Proto definitions, generated types, RPC clients |
-| [`@open-cursor/client`](shared/client/README.md)           | Cursor protocol client, executors, auth         |
+```bash
+# Install from npm
+pi install npm:@open-cursor/pi-agent
+
+# Or load as a one-off extension
+pi -e npm:@open-cursor/pi-agent
+```
 
 ## Architecture
 
