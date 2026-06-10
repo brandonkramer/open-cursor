@@ -81,6 +81,10 @@ importers:
       '@open-cursor/protocol':
         specifier: workspace:*
         version: link:../protocol
+    devDependencies:
+      '@types/node':
+        specifier: ^25.9.2
+        version: 25.9.2
 
   shared/protocol:
     dependencies:

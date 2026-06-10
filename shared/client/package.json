@@ -23,5 +23,8 @@
     "@bufbuild/protobuf": "1.10.0",
     "@connectrpc/connect": "^1.7.0",
     "@open-cursor/protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.2"
   }
 }

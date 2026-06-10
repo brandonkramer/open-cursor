@@ -81,7 +81,7 @@ function summarizeClientMessage(message: AgentClientMessage): Record<string, unk
     case "runRequest":
       summary["action"] = message.message.value.action?.action.case;
       summary["conversationId"] = message.message.value.conversationId;
-      summary["model"] = message.message.value.modelDetails?.modelName;
+      summary["model"] = message.message.value.modelDetails?.modelId;
       summary["hasConversationState"] = message.message.value.conversationState !== undefined;
       {
         const normalized = AgentClientMessage.fromBinary(bytes);

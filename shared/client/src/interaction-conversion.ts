@@ -221,26 +221,20 @@ export function convertProtoToInteractionUpdate(
         type: "shell-output-delta",
         event: update.message.value.event,
       };
-    case "turnEnded":
+    case "turnEnded": {
+      const value = update.message.value;
       return {
         type: "turn-ended",
-        inputTokens:
-          update.message.value.inputTokens !== undefined
-            ? Number(update.message.value.inputTokens)
-            : undefined,
-        outputTokens:
-          update.message.value.outputTokens !== undefined
-            ? Number(update.message.value.outputTokens)
-            : undefined,
-        cacheReadTokens:
-          update.message.value.cacheReadTokens !== undefined
-            ? Number(update.message.value.cacheReadTokens)
-            : undefined,
-        cacheWriteTokens:
-          update.message.value.cacheWriteTokens !== undefined
-            ? Number(update.message.value.cacheWriteTokens)
-            : undefined,
+        ...(value.inputTokens !== undefined ? { inputTokens: Number(value.inputTokens) } : {}),
+        ...(value.outputTokens !== undefined ? { outputTokens: Number(value.outputTokens) } : {}),
+        ...(value.cacheReadTokens !== undefined
+          ? { cacheReadTokens: Number(value.cacheReadTokens) }
+          : {}),
+        ...(value.cacheWriteTokens !== undefined
+          ? { cacheWriteTokens: Number(value.cacheWriteTokens) }
+          : {}),
       };
+    }
     case "toolCallDelta":
       if (
         !update.message.value.toolCallDelta ||

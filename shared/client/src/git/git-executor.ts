@@ -26,8 +26,8 @@ export class LocalGitExecutor {
     });
     return {
       exitCode: 0,
-      stdout: stdout.toString(),
-      stderr: stderr.toString(),
+      stdout,
+      stderr,
     };
   }
 }
