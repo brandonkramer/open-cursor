@@ -1,0 +1,112 @@
+name: Publish
+
+on:
+  push:
+    tags:
+      - "pi-agent-v*.*.*"
+      - "opencode-v*.*.*"
+
+permissions: {}
+
+concurrency:
+  group: npm-publish-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    name: Publish ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.19.0
+          registry-url: https://registry.npmjs.org/
+          cache: npm
+
+      - name: Enable pnpm
+        run: npm install --global pnpm@latest
+
+      - name: Show tool versions
+        run: |
+          node --version
+          pnpm --version
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Test
+        run: pnpm run test
+
+      - name: Determine package
+        id: pkg
+        run: |
+          TAG="${{ github.ref_name }}"
+          if [[ "$TAG" == pi-agent-v* ]]; then
+            echo "name=pi-agent" >> "$GITHUB_OUTPUT"
+            echo "dir=integrations/pi-agent" >> "$GITHUB_OUTPUT"
+            echo "pkg_name=@open-cursor/pi-agent" >> "$GITHUB_OUTPUT"
+          elif [[ "$TAG" == opencode-v* ]]; then
+            echo "name=opencode" >> "$GITHUB_OUTPUT"
+            echo "dir=integrations/opencode-agent" >> "$GITHUB_OUTPUT"
+            echo "pkg_name=@open-cursor/opencode-agent" >> "$GITHUB_OUTPUT"
+          else
+            echo "Unknown tag pattern: $TAG"
+            exit 1
+          fi
+
+      - name: Verify tag matches package version
+        run: |
+          VERSION="$(node -p "require('./${{ steps.pkg.outputs.dir }}/package.json').version")"
+          PKG="${{ steps.pkg.outputs.name }}"
+          EXPECTED_TAG="${PKG}-v${VERSION}"
+
+          if [ "${EXPECTED_TAG}" != "${{ github.ref_name }}" ]; then
+            echo "Tag ${{ github.ref_name }} does not match ${PKG} version ${VERSION}. Expected ${EXPECTED_TAG}."
+            exit 1
+          fi
+
+          if [[ "${VERSION}" == *-* ]]; then
+            echo "Pre-release publishing is not handled by this workflow."
+            exit 1
+          fi
+
+      - name: Verify version is not already published
+        run: |
+          PACKAGE_NAME="${{ steps.pkg.outputs.pkg_name }}"
+          VERSION="$(node -p "require('./${{ steps.pkg.outputs.dir }}/package.json').version")"
+
+          if npm view "${PACKAGE_NAME}@${VERSION}" version >/dev/null 2>&1; then
+            echo "${PACKAGE_NAME}@${VERSION} is already published."
+            exit 1
+          fi
+
+      - name: Publish shared packages first (if needed)
+        run: |
+          # workspace:* references must be resolved. pnpm publish replaces
+          # them with the actual version automatically.
+          # These are no-ops if already published at the same version.
+          pnpm --filter @open-cursor/protocol publish --access public --no-git-checks 2>/dev/null || true
+          pnpm --filter @open-cursor/client publish --access public --no-git-checks 2>/dev/null || true
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Publish target package
+        run: |
+          pnpm --filter ${{ steps.pkg.outputs.pkg_name }} publish --access public --no-git-checks
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
