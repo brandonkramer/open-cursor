@@ -1,0 +1,14 @@
+packages:
+  - "shared/*"
+  - "integrations/*"
+allowBuilds:
+  "@bufbuild/buf": true
+  "@google/genai": true
+  esbuild: true
+  koffi: true
+  lefthook: true
+  protobufjs: true
+minimumReleaseAge: 0
+overrides:
+  "@bufbuild/protobuf": 1.10.0
+  typescript: ^6.0.3

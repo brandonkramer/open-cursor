@@ -1,0 +1,115 @@
+{
+  "$schema": "node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "promise", "import", "node"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error",
+    "perf": "error",
+    "pedantic": "warn",
+    "style": "off",
+    "restriction": "off",
+    "nursery": "off"
+  },
+  "env": {
+    "node": true,
+    "es2024": true
+  },
+  "options": {
+    "typeAware": true,
+    "reportUnusedDisableDirectives": "warn"
+  },
+  "ignorePatterns": [
+    "dist/**",
+    "build/**",
+    "coverage/**",
+    "*.generated.ts",
+    "shared/**/src/__generated__/**"
+  ],
+  "rules": {
+    "eslint/require-await": "off",
+    "typescript/require-await": "off",
+    "eslint/max-lines-per-function": "off",
+    "eslint/max-lines": "off",
+    "eslint/max-classes-per-file": "off",
+    "import/max-dependencies": "off",
+    "eslint/no-negated-condition": "off",
+    "unicorn/no-negated-condition": "off",
+    "eslint/no-underscore-dangle": "off",
+    "typescript/prefer-readonly-parameter-types": "off",
+    "typescript/strict-boolean-expressions": "off",
+    "typescript/prefer-optional-chain": "warn",
+    "eslint/no-unneeded-ternary": "warn",
+    "unicorn/no-useless-undefined": "off",
+    "unicorn/no-array-callback-reference": "warn",
+    "unicorn/prefer-native-coercion-functions": "warn",
+    "eslint/no-await-in-loop": "off",
+    "eslint/no-promise-executor-return": "off",
+    "eslint/no-throw-literal": "off",
+    "eslint/no-inline-comments": "off",
+    "eslint/no-useless-return": "off",
+    "eslint/require-unicode-regexp": "off",
+    "unicorn/consistent-function-scoping": "off",
+    "unicorn/no-useless-spread": "off",
+    "typescript/no-unsafe-type-assertion": "warn",
+    "typescript/no-unnecessary-type-arguments": "off",
+    "typescript/consistent-return": "off",
+    "typescript/no-redundant-type-constituents": "off",
+    "typescript/return-await": "off",
+    "typescript/strict-void-return": "off",
+    "typescript/no-confusing-void-expression": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/vendor/**"],
+      "rules": {
+        "eslint/no-unused-vars": "off",
+        "typescript/no-this-alias": "off",
+        "unicorn/consistent-function-scoping": "off",
+        "eslint/no-shadow": "off",
+        "promise/no-multiple-resolved": "off",
+        "unicorn/no-useless-spread": "off",
+        "typescript/no-unsafe-type-assertion": "off",
+        "typescript/prefer-optional-chain": "off",
+        "typescript/switch-exhaustiveness-check": "off",
+        "unicorn/no-this-assignment": "off",
+        "typescript/no-redundant-type-constituents": "off",
+        "typescript/no-unnecessary-type-parameters": "off",
+        "typescript/no-unnecessary-type-assertion": "off",
+        "typescript/strict-void-return": "off",
+        "typescript/no-unsafe-assignment": "off",
+        "typescript/no-unsafe-argument": "off",
+        "typescript/no-unsafe-member-access": "off",
+        "typescript/no-unnecessary-type-conversion": "off",
+        "typescript/no-unnecessary-boolean-literal-compare": "off",
+        "typescript/no-confusing-void-expression": "off",
+        "typescript/unbound-method": "off",
+        "typescript/no-base-to-string": "off",
+        "typescript/no-floating-promises": "off",
+        "eslint/no-loop-func": "off",
+        "eslint/no-else-return": "off",
+        "eslint/symbol-description": "off",
+        "eslint/no-warning-comments": "off",
+        "eslint/eqeqeq": "off",
+        "unicorn/no-immediate-mutation": "off",
+        "unicorn/no-array-callback-reference": "off",
+        "typescript/prefer-nullish-coalescing": "off",
+        "unicorn/prefer-string-replace-all": "off"
+      }
+    },
+    {
+      "files": ["**/*.test.ts", "**/*.spec.ts", "**/__tests__/**"],
+      "rules": {
+        "typescript/no-explicit-any": "off",
+        "typescript/no-non-null-assertion": "off",
+        "typescript/no-floating-promises": "off",
+        "typescript/no-misused-promises": "off",
+        "eslint/max-lines-per-function": "off",
+        "eslint/max-lines": "off",
+        "import/max-dependencies": "off",
+        "typescript/no-unsafe-type-assertion": "off",
+        "typescript/strict-void-return": "off",
+        "typescript/switch-exhaustiveness-check": "off"
+      }
+    }
+  ]
+}

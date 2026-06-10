@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+
+# Generated protobuf code (regenerated via `pnpm proto:generate`)
+shared/protocol/src/__generated__/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+*.tsbuildinfo
+
+# Editor / IDE (project-local overrides)
+*.swp
+*.swo
+*~
+
+# Test coverage (if added later)
+coverage/
+.nyc_output/
+
+# TypeScript build output (tsconfig has noEmit, but keep for safety)
+dist/
+out/
+build/
+
+# Python cache
+__pycache__/
+*.pyc
+*.tsbuildinfo

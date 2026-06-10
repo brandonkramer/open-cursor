@@ -1,0 +1,5 @@
+.env
+alpha.ts
+docs/
+nested space/
+z-last.md

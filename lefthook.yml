@@ -1,0 +1,51 @@
+# lefthook.yml — deterministic gates for AI agents and humans
+
+pre-commit:
+  commands:
+    format:
+      glob: "*.{ts,cts,mts}"
+      run: npx oxfmt {staged_files}
+      stage_fixed: true
+      exclude:
+        - "dist/**"
+        - "node_modules/**"
+        - "**/__generated__/**"
+        - "**/vendor/**"
+    lint:
+      glob: "*.{ts,cts,mts}"
+      run: npx oxlint --fix {staged_files}
+      stage_fixed: true
+      exclude:
+        - "dist/**"
+        - "node_modules/**"
+        - "**/__generated__/**"
+        - "**/vendor/**"
+
+pre-push:
+  commands:
+    format-check:
+      glob: "*.{ts,cts,mts}"
+      run: npx oxfmt --check {staged_files}
+      exclude:
+        - "dist/**"
+        - "node_modules/**"
+        - "**/__generated__/**"
+        - "**/vendor/**"
+    typecheck:
+      run: npx tsc --noEmit -p tsconfig.json
+    lint:
+      glob: "*.{ts,cts,mts}"
+      run: npx oxlint --deny-warnings {staged_files}
+      exclude:
+        - "dist/**"
+        - "node_modules/**"
+        - "**/__generated__/**"
+        - "**/vendor/**"
+    lint-type-aware:
+      glob: "*.{ts,cts,mts}"
+      run: npx oxlint --type-aware --deny-warnings {staged_files}
+      exclude:
+        - "dist/**"
+        - "node_modules/**"
+        - "**/__generated__/**"
+        - "**/vendor/**"

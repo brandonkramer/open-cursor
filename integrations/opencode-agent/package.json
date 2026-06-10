@@ -1,0 +1,20 @@
+{
+  "name": "@open-cursor/opencode-agent",
+  "version": "0.1.0",
+  "description": "Cursor agent provider for opencode",
+  "license": "MIT",
+  "files": [
+    "src/**/*.ts",
+    "README.md"
+  ],
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc",
+    "test": "echo 'no tests yet'",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@open-cursor/client": "workspace:*",
+    "@open-cursor/protocol": "workspace:*"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "@open-cursor/monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Monorepo for open-cursor — bridging Cursor's agent protocol to pi, opencode, and beyond",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "lint": "oxlint .",
+    "lint:fix": "oxlint --fix .",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "typecheck:all": "pnpm -r run typecheck",
+    "test": "pnpm -r run test",
+    "clean": "pnpm -r run clean",
+    "proto:generate": "pnpm --filter @open-cursor/protocol run generate"
+  },
+  "devDependencies": {
+    "@tsconfig/strictest": "^2.0.8",
+    "@types/node": "^25.9.2",
+    "lefthook": "^2.1.9",
+    "oxfmt": "^0.54.0",
+    "oxlint": "^1.69.0",
+    "oxlint-tsgolint": "^0.23.0",
+    "tsx": "^4.22.4",
+    "typescript": "^6.0.3"
+  },
+  "packageManager": "pnpm@11.5.2"
+}
