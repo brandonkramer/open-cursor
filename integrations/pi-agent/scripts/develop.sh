@@ -19,9 +19,6 @@ readonly PACKAGE_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 readonly EXT_DIR="${HOME}/.pi/agent/extensions"
 readonly SYMLINK="${EXT_DIR}/open-cursor-pi-agent"
 readonly NPM_NAME="npm:${PROJECT_NAME}"
-readonly FRONTIER_SOURCE="${PI_FRONTIER_CURSOR_AGENT_DIR:-${HOME}/dev/pi-frontier/pi-cursor-agent}"
-readonly FRONTIER_NAME="pi-cursor-agent"
-readonly FRONTIER_ACTIVE="${EXT_DIR}/${FRONTIER_NAME}"
 
 # --- helpers ----------------------------------------------------------------
 
@@ -52,49 +49,12 @@ npm_extension_installed() {
 	pi list 2>/dev/null | grep -q "${NPM_NAME}"
 }
 
-same_symlink_target() {
-	local path="$1"
-	local expected="$2"
-	[[ -L "${path}" ]] && [[ "$(readlink "${path}")" == "${expected}" ]]
-}
-
-ensure_frontier_symlink() {
-	[[ -d "${FRONTIER_SOURCE}" ]] || die "pi-frontier checkout not found: ${FRONTIER_SOURCE}"
-	[[ -f "${FRONTIER_SOURCE}/package.json" ]] || die "no package.json in ${FRONTIER_SOURCE}"
-
-	if [[ -e "${FRONTIER_ACTIVE}" ]] && ! same_symlink_target "${FRONTIER_ACTIVE}" "${FRONTIER_SOURCE}"; then
-		die "unexpected path exists at ${FRONTIER_ACTIVE}; move it manually before continuing"
-	fi
-
-}
-
-disable_frontier() {
-	ensure_frontier_symlink
-	if [[ -L "${FRONTIER_ACTIVE}" ]]; then
-		rm "${FRONTIER_ACTIVE}" || die "failed to remove active pi-frontier symlink"
-		info "removed pi-frontier symlink at ${FRONTIER_ACTIVE}"
-	else
-		info "pi-frontier symlink already absent"
-	fi
-}
-
-enable_frontier() {
-	ensure_frontier_symlink
-	if [[ -L "${FRONTIER_ACTIVE}" ]]; then
-		info "pi-frontier already active at ${FRONTIER_ACTIVE}"
-		return
-	fi
-	ln -s "${FRONTIER_SOURCE}" "${FRONTIER_ACTIVE}" || die "failed to create active pi-frontier symlink"
-	info "created active pi-frontier symlink at ${FRONTIER_ACTIVE}"
-}
-
 # --- subcommands ------------------------------------------------------------
 
 cmd_link() {
 	require_pi_cli
 	assert_package
 	ensure_ext_dir
-	disable_frontier
 
 	# Step 1: remove any existing file/symlink at the target path, then
 	#         create a fresh symlink.
@@ -181,11 +141,6 @@ cmd_status() {
 		echo "  target:    $(readlink "${SYMLINK}")"
 	fi
 	echo "npm:       ${npm_state}  (${NPM_NAME})"
-	local frontier_state="none"
-	if [[ -L "${FRONTIER_ACTIVE}" ]]; then
-		frontier_state="active -> $(readlink "${FRONTIER_ACTIVE}")"
-	fi
-	echo "frontier:  ${frontier_state}"
 	echo
 
 	if [[ "${symlink_state}" == "symlinked" && "${npm_state}" == "installed" ]]; then
@@ -193,8 +148,6 @@ cmd_status() {
 		echo "Tool conflicts may occur. Run: ${SCRIPT_DIR}/develop.sh link"
 	elif [[ "${symlink_state}" == "symlinked" ]]; then
 		echo "state: DEV (local copy active)"
-	elif [[ -L "${FRONTIER_ACTIVE}" ]]; then
-		echo "state: FRONTIER (pi-frontier active)"
 	elif [[ "${npm_state}" == "installed" ]]; then
 		echo "state: NPM (published version active)"
 	else
