@@ -46,16 +46,7 @@ python3 scripts/diff-protos.py            # field-level drift
 - [eisbaw/cursor_api_demo](https://github.com/eisbaw/cursor_api_demo) — Python-based Cursor API RE toolkit
 - [sudosubin/pi-frontier](https://github.com/sudosubin/pi-frontier) — Original pi-cursor-agent implementation and upstream
 
-## Packages
-
-| Package                                                    | Purpose                                         |
-| ---------------------------------------------------------- | ----------------------------------------------- |
-| [`@open-cursor/pi-agent`](integrations/pi-agent/README.md) | Pi provider extension                           |
-| `@open-cursor/opencode-agent`                              | Opencode provider extension                     |
-| [`@open-cursor/protocol`](shared/protocol/README.md)       | Proto definitions, generated types, RPC clients |
-| [`@open-cursor/client`](shared/client/README.md)           | Cursor protocol client, executors, auth         |
-
-## Architecture
+## Models 
 
 | Canonical ID                   | Model                      | Thinking               |
 | ------------------------------ | -------------------------- | ---------------------- |
@@ -115,6 +106,15 @@ python3 scripts/diff-protos.py            # field-level drift
 | `kimi-k2.5`                    | Kimi K2.5                  | —                      |
 
 > Cursor exposes 141+ model variants. Run `cursor agent models` for the authoritative list.
+
+## Packages
+
+| Package                                                    | Purpose                                         |
+| ---------------------------------------------------------- | ----------------------------------------------- |
+| [`@open-cursor/pi-agent`](integrations/pi-agent/README.md) | Pi provider extension                           |
+| `@open-cursor/opencode-agent`                              | Opencode provider extension                     |
+| [`@open-cursor/protocol`](shared/protocol/README.md)       | Proto definitions, generated types, RPC clients |
+| [`@open-cursor/client`](shared/client/README.md)           | Cursor protocol client, executors, auth         |
 
 ## Development
 
