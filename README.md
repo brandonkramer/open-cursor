@@ -8,6 +8,15 @@ Cursor Agent provider extension for [pi](https://github.com/badlogic/pi-mono).
 
 Use Cursor's AI models directly from **pi** or **opencode** with your existing Cursor subscription. Supports Claude, GPT, Gemini, Grok, Composer, and Kimi models.
 
+## Packages
+
+| Package                                                    | Purpose                                         |
+| ---------------------------------------------------------- | ----------------------------------------------- |
+| [`@open-cursor/pi-agent`](integrations/pi-agent/README.md) | Pi provider extension                           |
+| `@open-cursor/opencode-agent`                              | Opencode provider extension                     |
+| [`@open-cursor/protocol`](shared/protocol/README.md)       | Proto definitions, generated types, RPC clients |
+| [`@open-cursor/client`](shared/client/README.md)           | Cursor protocol client, executors, auth         |
+
 ## Architecture
 
 ```
@@ -45,7 +54,7 @@ python3 scripts/diff-protos.py            # field-level drift
 | [`@open-cursor/protocol`](shared/protocol/README.md)       | Proto definitions, generated types, RPC clients |
 | [`@open-cursor/client`](shared/client/README.md)           | Cursor protocol client, executors, auth         |
 
-## Models
+## Architecture
 
 | Canonical ID                   | Model                      | Thinking               |
 | ------------------------------ | -------------------------- | ---------------------- |
