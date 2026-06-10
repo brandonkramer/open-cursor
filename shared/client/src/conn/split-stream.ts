@@ -113,14 +113,14 @@ export function splitStream(
         ) {
           // Avoid unhandled rejections if the interaction stream was closed
           // (e.g., due to client-side abort/cleanup racing with server writes)
-          await interactionStream.write(message.message as InteractionMessage).catch(() => {});
+          await interactionStream.write(message.message).catch(() => {});
         }
 
         if (
           message.message.case === "execServerMessage" ||
           message.message.case === "execServerControlMessage"
         ) {
-          await execStream.write(message.message.value as ExecMessage);
+          await execStream.write(message.message.value);
         }
 
         if (message.message.case === "conversationCheckpointUpdate") {
